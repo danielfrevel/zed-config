@@ -1,0 +1,58 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "context_servers": {
+    "chrome-devtools-mcp-zed": {
+      "enabled": true,
+      "settings": {}
+    },
+    "mcp-server-context7": {
+      "enabled": true,
+      "settings": {
+        "context7_api_key": "ctx7sk-2d73428c-6556-4cbe-898c-dad69df4c579"
+      }
+    }
+  },
+  "features": {
+    "edit_prediction_provider": "copilot",
+  },
+  "telemetry": {
+    "diagnostics": true,
+    "metrics": false,
+  },
+  "session": {
+    "trust_all_worktrees": true,
+  },
+  "vim_mode": true,
+  "ui_font_size": 16,
+  "format_on_save": "on",
+  "buffer_font_size": 14,
+  "theme": {
+    "mode": "system",
+    "light": "Ayu Light",
+    "dark": "Catppuccin Mocha",
+  },
+  "icon_theme": "Catppuccin Mocha",
+  "notification_panel": {
+    "enabled": false,
+    "button": false,
+  },
+  "relative_line_numbers": "enabled",
+  "scrollbar": {
+    "show": "never",
+  },
+  "tab_bar": {
+    "show": true,
+    "show_nav_history_buttons": false,
+  },
+  "tabs": {
+    "file_icons": true,
+    "git_status": true,
+  },
+}
