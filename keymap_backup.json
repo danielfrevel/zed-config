@@ -42,7 +42,7 @@
       "space b d": "pane::CloseActiveItem",
       "space b D": "pane::CloseAllItems",
       "space b n": "pane::ActivateNextItem",
-      "space b p": "pane::ActivatePreviousItem",
+      "space b p": "pane::ActivatePrevItem",
       "space b l": "pane::AlternateFile",
       "space b o": "pane::CloseOtherItems",
       "space b r": "pane::CloseItemsToTheRight",
@@ -159,7 +159,7 @@
       // ─────────────────────────────────────────────────────────────────
       "space a a": "assistant::ToggleFocus",
       "space a i": "assistant::InlineAssist",
-      "space a n": "assistant::ToggleFocus",
+      "space a n": "assistant::NewThread",
       "space a c": "assistant::ToggleFocus",
 
       // ─────────────────────────────────────────────────────────────────
@@ -206,7 +206,7 @@
 
       // Buffer navigation
       "] b": "pane::ActivateNextItem",
-      "[ b": "pane::ActivatePreviousItem",
+      "[ b": "pane::ActivatePrevItem",
 
       // Method/function navigation (tree-sitter)
       "] m": "vim::NextMethodStart",
@@ -245,9 +245,11 @@
       // Center cursor when jumping
       "ctrl-d": ["workspace::SendKeystrokes", "ctrl-d z z"],
       "ctrl-u": ["workspace::SendKeystrokes", "ctrl-u z z"],
+      "n": ["workspace::SendKeystrokes", "n z z"],
+      "shift-n": ["workspace::SendKeystrokes", "shift-n z z"],
 
       // Buffer navigation (shift+h/l like LazyVim)
-      "shift-h": "pane::ActivatePreviousItem",
+      "shift-h": "pane::ActivatePrevItem",
       "shift-l": "pane::ActivateNextItem",
 
       // Close buffer
@@ -285,11 +287,11 @@
     "context": "Editor && vim_mode == insert && !menu",
     "bindings": {
       // Quick escape alternatives
-      "j k": "vim::SwitchToNormalMode",
-      "j j": "vim::SwitchToNormalMode",
+      "j k": ["vim::SwitchMode", "Normal"],
+      "j j": ["vim::SwitchMode", "Normal"],
 
       // Quick save from insert mode
-      "ctrl-s": ["workspace::SendKeystrokes", "escape : w enter"],
+      "ctrl-s": ["vim::SwitchMode", "Normal", "workspace::Save"],
 
       // Navigation in insert mode
       "ctrl-h": "editor::MoveLeft",
@@ -301,7 +303,7 @@
       "ctrl-w": "editor::DeleteToPreviousWordStart",
 
       // Signature help
-      "ctrl-shift-k": "editor::ShowSignatureHelp",
+      "ctrl-k": "editor::ShowSignatureHelp",
     },
   },
 
@@ -334,7 +336,6 @@
       // Panel toggles (global)
       "ctrl-b": "workspace::ToggleLeftDock",
       "ctrl-`": "terminal_panel::ToggleFocus",
-      "space t t": "terminal_panel::ToggleFocus",
       "ctrl-shift-e": "project_panel::ToggleFocus",
       "ctrl-shift-g": "git_panel::ToggleFocus",
       "ctrl-shift-o": "outline::Toggle",
@@ -356,7 +357,7 @@
     "bindings": {
       // Navigation
       "j": "menu::SelectNext",
-      "k": "menu::SelectPrevious",
+      "k": "menu::SelectPrev",
       "h": "project_panel::CollapseSelectedEntry",
       "l": "project_panel::ExpandSelectedEntry",
       "enter": "project_panel::Open",
@@ -413,6 +414,7 @@
 
       // Terminal navigation
       "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-l": "workspace::ActivatePaneRight",
       "ctrl-k": "workspace::ActivatePaneUp",
       "ctrl-j": "workspace::ActivatePaneDown",
 
@@ -430,10 +432,10 @@
   {
     "context": "GitPanel",
     "bindings": {
-      "j": "menu::SelectNext",
-      "k": "menu::SelectPrevious",
-      "g g": "menu::SelectFirst",
-      "shift-g": "menu::SelectLast",
+      "j": "git_panel::NextEntry",
+      "k": "git_panel::PreviousEntry",
+      "g g": "git_panel::FirstEntry",
+      "shift-g": "git_panel::LastEntry",
       "space": "git::ToggleStaged",
       "s": "git::StageAndNext",
       "u": "git::UnstageAndNext",
@@ -458,7 +460,7 @@
       "ctrl-j": "workspace::ActivatePaneDown",
       "ctrl-k": "workspace::ActivatePaneUp",
       "ctrl-l": "workspace::ActivatePaneRight",
-      "escape": "workspace::ActivatePaneUp",
+      "escape": "workspace::Focus",
     },
   },
 
@@ -469,9 +471,9 @@
     "context": "OutlinePanel",
     "bindings": {
       "j": "menu::SelectNext",
-      "k": "menu::SelectPrevious",
-      "enter": "outline_panel::OpenSelectedEntry",
-      "o": "outline_panel::OpenSelectedEntry",
+      "k": "menu::SelectPrev",
+      "enter": "outline_panel::Open",
+      "o": "outline_panel::Open",
       "q": "outline_panel::ToggleFocus",
       "escape": "outline_panel::ToggleFocus",
     },
@@ -484,12 +486,12 @@
     "context": "Picker",
     "bindings": {
       "ctrl-j": "menu::SelectNext",
-      "ctrl-k": "menu::SelectPrevious",
+      "ctrl-k": "menu::SelectPrev",
       "ctrl-n": "menu::SelectNext",
-      "ctrl-p": "menu::SelectPrevious",
-      "ctrl-v": "picker::ConfirmCompletion",
-      "ctrl-s": "picker::ConfirmCompletion",
-      "ctrl-t": "picker::ConfirmCompletion",
+      "ctrl-p": "menu::SelectPrev",
+      "ctrl-v": "picker::ConfirmSplitRight",
+      "ctrl-s": "picker::ConfirmSplitDown",
+      "ctrl-t": "picker::ConfirmSplitRight",
     },
   },
 
@@ -501,11 +503,11 @@
     "bindings": {
       "escape": "buffer_search::Dismiss",
       "enter": "search::SelectNextMatch",
-      "shift-enter": "search::SelectPreviousMatch",
+      "shift-enter": "search::SelectPrevMatch",
       "ctrl-n": "search::SelectNextMatch",
-      "ctrl-p": "search::SelectPreviousMatch",
+      "ctrl-p": "search::SelectPrevMatch",
       "ctrl-j": "search::SelectNextMatch",
-      "ctrl-k": "search::SelectPreviousMatch",
+      "ctrl-k": "search::SelectPrevMatch",
     },
   },
 
